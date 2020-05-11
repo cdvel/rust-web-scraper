@@ -10,3 +10,4 @@ edition = "2018"
 reqwest = { version = "0.10", features = ["json"] }
 tokio = { version = "0.2", features = ["full"] }
 select = "0.4.3"
+scraper = "0.12.0"
