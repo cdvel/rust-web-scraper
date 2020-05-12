@@ -8,9 +8,10 @@ use select::predicate::{Class, Name, Predicate};
 use scraper::{Html, Selector};
 
 fn main() {
-    // println!("{:?}", hacker_news("https://news.ycombinator.com"));
-    // println!("{:?}", hacker_news_headlines("https://news.ycombinator.com"));
-    println!("{:?}", hacker_news_ranked("https://news.ycombinator.com"));
+    println!("\n{}\n", "*. Hacker news headlines");
+    // assert!(hacker_news("https://news.ycombinator.com").is_ok());
+    // assert!(hacker_news_headlines("https://news.ycombinator.com").is_ok());
+    assert!(hacker_news_ranked("https://news.ycombinator.com").is_ok());
 }
 
 #[tokio::main]
@@ -24,7 +25,7 @@ async fn hacker_news_headlines(url: &str) -> Result<(), Box<dyn std::error::Erro
 
     for story in fragment.select(&stories) {
         let story_txt = story.text().collect::<Vec<_>>();
-        println!("{:?}", story_txt);
+        println!("{}", story_txt.join(" "));
     }
 
     Ok(())
@@ -60,12 +61,25 @@ async fn hacker_news_ranked(url: &str) -> Result<(), Box<dyn std::error::Error>>
             .next()
             .unwrap()
             .text();
-        println!("\n | {} | {} \n", rank.text(), story);
+        println!("{} {}", rank.text(), story);
+
+        let subtext = node.next().ok_or("Err").unwrap();
+
+        for field in &["score", "hnuser", "age"] {
+            let value = subtext.find(Class(*field)).next().ok_or("Err");
+            let value: String = if value.is_ok() {
+                value.unwrap().text()
+            } else {
+                "".to_string()
+            };
+            print!("{}:\t\t{}\n", field, value);
+        }
+
         let url = node
             .find(Class("title").descendant(Name("a")))
             .next()
             .unwrap();
-        println!("{:?}\n", url.attr("href").unwrap());
+        println!("url:\t\t{}\n", url.attr("href").unwrap());
     }
 
     Ok(())
