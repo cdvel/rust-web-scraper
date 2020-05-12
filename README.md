@@ -1,9 +1,9 @@
-# rust-web-scraper
+# Rust: Web scraper
 
-A simple asynchronous web scraper written in Rust.
+A simple asynchronous web scraper written in Rust, based on [kadekillary/scraping-with-rust](https://kadekillary.work/post/webscraping-rust/)
 
 
-Sample output
+## Sample output
 ```
 *. Hacker news headlines
 
@@ -50,4 +50,5 @@ url:		https://davestrickson.blogspot.com/2020/05/john-peel-sessions.html
 ## Resources
 
 - https://kadekillary.work/post/webscraping-rust/
+- https://rust-lang-nursery.github.io/rust-cookbook/web/scraping.html
 - https://doc.rust-lang.org/book/
